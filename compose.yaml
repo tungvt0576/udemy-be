@@ -1,0 +1,8 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=udemy_sys_db'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+    ports:
+      - '3307:3306'

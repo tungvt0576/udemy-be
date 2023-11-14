@@ -11,7 +11,7 @@ import lombok.*;
 @Table(name="assignments")
 public class Assignment extends BaseModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "type")

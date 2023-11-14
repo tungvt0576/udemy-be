@@ -38,6 +38,7 @@ pipeline {
                  sh "docker build --rm -t ${IMAGE} ."
                  sh "docker tag ${IMAGE} ${IMAGE_PUB}"
                  sh "docker rmi -f ${IMAGE}"
+                 sh "docker push ${IMAGE_PUB}"
                }
             }
         }

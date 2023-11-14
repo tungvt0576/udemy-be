@@ -30,16 +30,26 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Build and Deploy') {
+        stage('Build and Push image') {
             steps {
                script {
                  sh "docker build --rm -t ${IMAGE} ."
                  sh "docker tag ${IMAGE} ${IMAGE_PUB}"
+                 sh "docker rmi -f ${IMAGE}"
                  sh "ssh ${SSH_USER}@${SSH_HOST} 'docker rm -f ${IMAGE} && docker rmi -f ${IMAGE_PUB}'"
                  sh "ssh ${SSH_USER}@${SSH_HOST} 'docker run -d -p ${PORT}:${PORT} --network udemy --restart always -e URL_DATABASE=${URL_DATABASE} --name ${IMAGE} ${IMAGE_PUB}'"
-                 sh "docker rmi -f ${IMAGE}"
+
                }
             }
+        }
+        stage('Deploy') {
+          steps {
+             script {
+                sh "ssh ${SSH_USER}@${SSH_HOST} 'docker rm -f ${IMAGE} && docker rmi -f ${IMAGE_PUB}'"
+                sh "ssh ${SSH_USER}@${SSH_HOST} 'docker run -d -p ${PORT}:${PORT} --network udemy --restart always -e URL_DATABASE=${URL_DATABASE} --name ${IMAGE} ${IMAGE_PUB}'"
+
+             }
+           }
         }
 
     }

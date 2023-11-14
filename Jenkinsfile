@@ -14,6 +14,8 @@ pipeline {
         SSH_HOST = '192.168.0.225'
         SSH_USER = 'dev'
         URL_DATABASE='jdbc:mysql://192.168.0.80:3306/udemy'
+        DB_USERNAME='root'
+        DB_PASSWORD='root'
     }
     stages {
         stage('Check out') {
@@ -27,7 +29,7 @@ pipeline {
         }
         stage('Maven Build') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Build and Push image') {
@@ -36,21 +38,32 @@ pipeline {
                  sh "docker build --rm -t ${IMAGE} ."
                  sh "docker tag ${IMAGE} ${IMAGE_PUB}"
                  sh "docker rmi -f ${IMAGE}"
-                 sh "ssh ${SSH_USER}@${SSH_HOST} 'docker rm -f ${IMAGE} && docker rmi -f ${IMAGE_PUB}'"
-                 sh "ssh ${SSH_USER}@${SSH_HOST} 'docker run -d -p ${PORT}:${PORT} --network udemy --restart always -e URL_DATABASE=${URL_DATABASE} --name ${IMAGE} ${IMAGE_PUB}'"
-
                }
             }
         }
         stage('Deploy') {
-          steps {
-             script {
-                sh "ssh ${SSH_USER}@${SSH_HOST} 'docker rm -f ${IMAGE} && docker rmi -f ${IMAGE_PUB}'"
-                sh "ssh ${SSH_USER}@${SSH_HOST} 'docker run -d -p ${PORT}:${PORT} --network udemy --restart always -e URL_DATABASE=${URL_DATABASE} --name ${IMAGE} ${IMAGE_PUB}'"
-
-             }
-           }
+            steps {
+                script {
+                    sh """
+                        ssh ${SSH_USER}@${SSH_HOST} '
+                            docker rm -f ${IMAGE} &&
+                            docker rmi -f ${IMAGE_PUB}
+                        '
+                    """
+                    sh """
+                        ssh ${SSH_USER}@${SSH_HOST} '
+                            docker run -d -p ${PORT}:${PORT} \
+                            --network udemy --restart always \
+                            -e URL_DATABASE=${URL_DATABASE} \
+                            -e DB_USERNAME=${DB_USERNAME} \
+                            -e DB_PASSWORD=${DB_PASSWORD} \
+                            --name ${IMAGE} ${IMAGE_PUB}
+                        '
+                    """
+                }
+            }
         }
+
 
     }
 }

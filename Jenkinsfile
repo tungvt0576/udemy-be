@@ -13,7 +13,7 @@ pipeline {
         PORT = 8087
         SSH_HOST = '192.168.0.225'
         SSH_USER = 'dev'
-        URL_DATABASE='jdbc:mysql://192.168.0.80:3306/udemy'
+        URL_DATABASE='jdbc:mysql://192.168.0.103:3306/udemy'
         DB_USERNAME='root'
         DB_PASSWORD='root'
     }

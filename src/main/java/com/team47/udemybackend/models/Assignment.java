@@ -12,7 +12,7 @@ import lombok.*;
 public class Assignment extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(name = "type")
     private String type;

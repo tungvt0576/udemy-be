@@ -1,4 +1,3 @@
-CREATE DATABASE `udemy_sys_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 CREATE TABLE `users` (
                          `id` int NOT NULL AUTO_INCREMENT,
                          `email` varchar(255) NOT NULL,
@@ -153,5 +152,5 @@ CREATE TABLE `lecture_statuses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
-ALTER TABLE `udemy_sys_db`.`users`
+ALTER TABLE `udemy`.`users`
     CHANGE COLUMN `password` `password` VARCHAR(255) NOT NULL ;

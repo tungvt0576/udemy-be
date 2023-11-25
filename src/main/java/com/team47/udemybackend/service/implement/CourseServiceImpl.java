@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class CourseServiceImpl implements CourseService {
+    @Autowired
     CourseRepository courseRepository;
 
-    @Autowired
     public CourseServiceImpl(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
@@ -35,16 +35,21 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> listAll(String keyword) {
-        if(keyword != null){
-            return courseRepository.search(keyword).stream().map(this::mapToCourseDTO).collect(Collectors.toList());
+    public List<CourseDTO> listAllByKeyword(String keyword) {
+        try {
+            if(keyword != null){
+                return courseRepository.findByTitleContainingOrCategoryContaining(keyword, keyword).stream().map(this::mapToCourseDTO).collect(Collectors.toList());
+            }
+            return courseRepository.findAll().stream().map(this::mapToCourseDTO).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException("Server Error");
         }
-        return courseRepository.findAll().stream().map(this::mapToCourseDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CourseDTO findById(Long Id) {
-        Optional<Course> result = courseRepository.findById(Id);
+    public CourseDTO findById(Integer Id) throws CourseNotFoundException {
+        Optional<Course> result = Optional.ofNullable(courseRepository.findById(Id).orElseThrow(() -> new CourseNotFoundException("Course not found")));
+
         if(result.isPresent()){
             Course course = result.get();
             return mapToCourseDTO(course);
@@ -59,14 +64,35 @@ public class CourseServiceImpl implements CourseService {
         return mapToCourseDTO(course_);
     }
     @Override
-    public CourseDTO updateInfoById(Long id) throws CourseNotFoundException {
+    public CourseDTO updateInfoById(CourseDTO courseDTO, Integer id) throws CourseNotFoundException {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Course could not be found"));
+
+        course.setCourseFor(courseDTO.getCourseFor());
+        course.setCourseDescription((courseDTO.getCourseDescription()));
+        course.setCourseImageUrl(courseDTO.getCourseImageUrl());
+        course.setId(courseDTO.getId());
+        course.setCategory(courseDTO.getCategory());
+        course.setLanguage(courseDTO.getLanguage());
+        course.setLevel(courseDTO.getLevel());
+        course.setPrice(courseDTO.getPrice());
+        course.setRating(courseDTO.getRating());
+        course.setCreatedAt(courseDTO.getCreatedAt());
+        course.setId(courseDTO.getId());
+        course.setSale(courseDTO.getSale());
+        course.setWelcomeMessage(courseDTO.getWelcomeMessage());
+        course.setCongratulationMessage(courseDTO.getCongratulationMessage());
+        course.setSubtitle(courseDTO.getSubtitle());
+        course.setStatus(courseDTO.getStatus());
+        course.setUpdatedAt(courseDTO.getUpdatedAt());
+        course.setLearningObject(courseDTO.getLearningObject());
+        course.setPrimarilyTaught(courseDTO.getPrimarilyTaught());
+
         Course course_ =  courseRepository.save(course);
         return mapToCourseDTO(course_);
     }
 
     @Override
-    public void delete(Long id) throws CourseNotFoundException {
+    public void delete(Integer id) throws CourseNotFoundException {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Course could not be found"));
         courseRepository.delete(course);
     }
@@ -92,12 +118,16 @@ public class CourseServiceImpl implements CourseService {
         courseDTO.setUpdatedAt(course.getUpdatedAt());
         courseDTO.setLearningObject(course.getLearningObject());
         courseDTO.setPrimarilyTaught(course.getPrimarilyTaught());
+        courseDTO.setTitle(course.getTitle());
+        courseDTO.setRequiredSkills(course.getRequiredSkills());
         return courseDTO;
     }
 
     private Course mapToCourse(CourseDTO courseDTO){
         Course course = new Course();
         course.setCourseFor(courseDTO.getCourseFor());
+        course.setTitle(courseDTO.getTitle());
+        course.setRequiredSkills(courseDTO.getRequiredSkills());
         course.setCourseDescription((courseDTO.getCourseDescription()));
         course.setCourseImageUrl(courseDTO.getCourseImageUrl());
         course.setId(courseDTO.getId());

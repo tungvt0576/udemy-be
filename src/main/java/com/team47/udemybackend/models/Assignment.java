@@ -3,6 +3,7 @@ package com.team47.udemybackend.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

@@ -185,7 +185,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             assignmentDTO.setId(assignment.getId());
             assignmentDTO.setDescription(assignment.getDescription());
             assignmentDTO.setType(assignment.getType());
-            assignmentDTO.setCourseID((long) assignment.getCourse().getId());
+            assignmentDTO.setCourseID(assignment.getCourse().getId());
             assignmentDTO.setCreatedAt(assignment.getCreatedAt());
             assignmentDTO.setUpdatedAt(assignment.getUpdatedAt());
             assignmentDTO.setAttachedFilesUrl(assignment.getAttachedFilesUrl());
@@ -198,15 +198,11 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setType(assignmentDTO.getType());
 //        courseRepository.findById(assignmentDTO.getCourseID())
 //                .ifPresent(assignment::setCourse);
-        Long courseId = assignmentDTO.getCourseID();
-        if (courseId != null) {
-            Optional<Course> courseOptional = courseRepository.findById(courseId);
-            if (courseOptional.isPresent()) assignment.setCourse(courseOptional.get());
-            else {
-                throw new UdemyValidateException("Invalid Course ID");
-            }
-        } else {
-            throw new UdemyValidateException("Course ID is required");
+        Integer courseId = assignmentDTO.getCourseID();
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if (courseOptional.isPresent()) assignment.setCourse(courseOptional.get());
+        else {
+            throw new UdemyValidateException("Invalid Course ID");
         }
 
         assignment.setCreatedAt(assignmentDTO.getCreatedAt());

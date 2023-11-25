@@ -19,7 +19,7 @@ public class UpdateAssignmentDTO {
     @JsonProperty("attached_files_url")
     private String attachedFilesUrl;
     @JsonProperty("course_id")
-    private Long courseID;
+    private int courseID;
     @JsonIgnore
     @JsonProperty("created_at")
     private LocalDateTime createdAt;

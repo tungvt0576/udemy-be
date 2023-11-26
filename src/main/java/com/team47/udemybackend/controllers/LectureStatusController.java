@@ -21,12 +21,12 @@ public class LectureStatusController {
     @Resource
     LectureStatusService lectureStatusService;
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<DataListResponse> listAll() {
         return new ResponseEntity<>(lectureStatusService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/list-filter")
+    @GetMapping("/filter")
     public ResponseEntity<DataListResponse> getAllPage(
             @RequestParam(name = "page_size", required = false, defaultValue = "10") int pageSize,
             @RequestParam(name = "page_number", required = false, defaultValue = "0") int pageNum,
@@ -41,22 +41,22 @@ public class LectureStatusController {
         return new ResponseEntity<>(lectureStatusService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createLectureStatus(@RequestBody CreateLectureStatusDTO lectureStatusDTO) {
         return new ResponseEntity<>(lectureStatusService.create(lectureStatusDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateLectureStatus(@RequestBody UpdateLectureStatusDTO lectureStatusDTO) {
         return new ResponseEntity<>(lectureStatusService.update(lectureStatusDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponse> deleteLectureStatus(@PathVariable Integer id) {
         return new ResponseEntity<>(lectureStatusService.delete(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteLectureStatuses(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(lectureStatusService.deleteMultiple(idList), HttpStatus.OK);

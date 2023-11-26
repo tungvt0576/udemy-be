@@ -21,12 +21,12 @@ public class FeedbackController {
     @Resource
     FeedbackService feedbackService;
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<DataListResponse> listAll() {
         return new ResponseEntity<>(feedbackService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/list-filter")
+    @GetMapping("/filter")
     public ResponseEntity<DataListResponse> getAllPage(
             @RequestParam(name = "page_size", required = false, defaultValue = "10") int pageSize,
             @RequestParam(name = "page_number", required = false, defaultValue = "0") int pageNum,
@@ -41,22 +41,22 @@ public class FeedbackController {
         return new ResponseEntity<>(feedbackService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createFeedback(@RequestBody CreateFeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.create(feedbackDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateFeedback(@RequestBody UpdateFeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.update(feedbackDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponse> deleteFeedback(@PathVariable Integer id) {
         return new ResponseEntity<>(feedbackService.delete(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteFeedbacks(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(feedbackService.deleteMultiple(idList), HttpStatus.OK);

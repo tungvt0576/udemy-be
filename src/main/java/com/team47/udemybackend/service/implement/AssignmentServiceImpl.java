@@ -13,11 +13,10 @@ import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.repository.AssignmentRepository;
 import com.team47.udemybackend.repository.CourseRepository;
 import com.team47.udemybackend.service.AssignmentService;
+import com.team47.udemybackend.utils.UtilsFunctions;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -128,9 +127,9 @@ public class AssignmentServiceImpl implements AssignmentService {
                 AssignmentDTO assignmentDTO = new AssignmentDTO();
                 BeanUtils.copyProperties(updateAssignmentDTO, assignmentDTO);
                 Assignment updatedAssignment = mapToAssignment(assignmentDTO);
-                BeanUtils.copyProperties(updatedAssignment, existingAssignment, getNullPropertyNames(updatedAssignment));
+                BeanUtils.copyProperties(updatedAssignment, existingAssignment, UtilsFunctions.getNullPropertyNames(updatedAssignment));
                 Assignment savedAssignment = assignmentRepository.save(existingAssignment);
-                AssignmentDTO savedAssignmentDTO = mapToAssignmentDTO(savedAssignment);
+                mapToAssignmentDTO(savedAssignment);
                 return DataResponse.simpleSuccess("Assignment updated successfully");
             } else {
                 return BaseResponse.simpleFail(String.format("Assignment id: %d does not exist", assignmentId));
@@ -167,7 +166,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             List<Integer> deletedAssignmentIds = assignmentsToDelete.stream()
                     .map(Assignment::getId)
                     .collect(Collectors.toList());
-            assignmentRepository.deleteInBatch(assignmentsToDelete);
+            assignmentRepository.deleteAllInBatch(assignmentsToDelete);
 
             return DataResponse.builder()
                     .isError(false)
@@ -209,18 +208,5 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setUpdatedAt(assignmentDTO.getUpdatedAt());
         assignment.setAttachedFilesUrl(assignmentDTO.getAttachedFilesUrl());
         return assignment;
-    }
-    // Helper method to get null property names for BeanUtils.copyProperties
-    private String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        Set<String> emptyNames = new HashSet<>();
-        for (java.beans.PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
     }
 }

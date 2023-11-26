@@ -20,7 +20,7 @@ public class AssignmentsSubmissionController {
     @Resource
     AssignmentsSubmissionService assignmentsSubmissionService;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<DataListResponse> listAll() {
         return new ResponseEntity<>(assignmentsSubmissionService.listAll(), HttpStatus.OK);
     }
@@ -40,12 +40,12 @@ public class AssignmentsSubmissionController {
         return new ResponseEntity<>(assignmentsSubmissionService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createAssignmentSubmission(@RequestBody CreateAssignmentsSubmissionDTO submissionDTO) {
         return new ResponseEntity<>(assignmentsSubmissionService.create(submissionDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateAssignmentSubmission(@RequestBody UpdateAssignmentsSubmissionDTO submissionDTO) {
         return new ResponseEntity<>(assignmentsSubmissionService.update(submissionDTO), HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class AssignmentsSubmissionController {
         return new ResponseEntity<>(assignmentsSubmissionService.delete(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteAssignmentSubmissions(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(assignmentsSubmissionService.deleteMultiple(idList), HttpStatus.OK);

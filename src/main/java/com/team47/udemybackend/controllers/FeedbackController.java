@@ -21,7 +21,7 @@ public class FeedbackController {
     @Resource
     FeedbackService feedbackService;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<DataListResponse> listAll() {
         return new ResponseEntity<>(feedbackService.listAll(), HttpStatus.OK);
     }
@@ -41,12 +41,12 @@ public class FeedbackController {
         return new ResponseEntity<>(feedbackService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createFeedback(@RequestBody CreateFeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.create(feedbackDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateFeedback(@RequestBody UpdateFeedbackDTO feedbackDTO) {
         return new ResponseEntity<>(feedbackService.update(feedbackDTO), HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class FeedbackController {
         return new ResponseEntity<>(feedbackService.delete(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteFeedbacks(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(feedbackService.deleteMultiple(idList), HttpStatus.OK);

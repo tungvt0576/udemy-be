@@ -19,7 +19,7 @@ import java.util.List;
 public class AssignmentController {
     @Resource
     AssignmentService assignmentService;
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<BaseResponse> listAll(){
         return new ResponseEntity<>(assignmentService.listAll(), HttpStatus.OK);
     }
@@ -36,12 +36,12 @@ public class AssignmentController {
     public ResponseEntity<BaseResponse> getById(@PathVariable Integer id) {
         return new ResponseEntity<>(assignmentService.findById(id), HttpStatus.OK);
     }
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createAssignment(@RequestBody CreateAssignmentDTO assignmentDTO) {
         return new ResponseEntity<>(assignmentService.create(assignmentDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateAssignment(@RequestBody UpdateAssignmentDTO assignmentDTO) {
         return new ResponseEntity<>(assignmentService.update(assignmentDTO), HttpStatus.OK);
     }
@@ -50,7 +50,7 @@ public class AssignmentController {
     public ResponseEntity<BaseResponse> deleteAssignment(@PathVariable Integer id) {
         return new ResponseEntity<>(assignmentService.delete(id), HttpStatus.OK);
     }
-    @DeleteMapping("/")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteAssignments(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(assignmentService.deleteMultiple(idList), HttpStatus.OK);

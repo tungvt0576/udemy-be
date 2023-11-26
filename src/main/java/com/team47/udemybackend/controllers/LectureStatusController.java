@@ -21,7 +21,7 @@ public class LectureStatusController {
     @Resource
     LectureStatusService lectureStatusService;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<DataListResponse> listAll() {
         return new ResponseEntity<>(lectureStatusService.listAll(), HttpStatus.OK);
     }
@@ -41,12 +41,12 @@ public class LectureStatusController {
         return new ResponseEntity<>(lectureStatusService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<BaseResponse> createLectureStatus(@RequestBody CreateLectureStatusDTO lectureStatusDTO) {
         return new ResponseEntity<>(lectureStatusService.create(lectureStatusDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public ResponseEntity<BaseResponse> updateLectureStatus(@RequestBody UpdateLectureStatusDTO lectureStatusDTO) {
         return new ResponseEntity<>(lectureStatusService.update(lectureStatusDTO), HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class LectureStatusController {
         return new ResponseEntity<>(lectureStatusService.delete(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping()
     public ResponseEntity<BaseResponse> deleteLectureStatuses(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(lectureStatusService.deleteMultiple(idList), HttpStatus.OK);

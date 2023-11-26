@@ -19,11 +19,11 @@ import java.util.List;
 public class AssignmentController {
     @Resource
     AssignmentService assignmentService;
-    @GetMapping("/list")
+    @GetMapping("/")
     public ResponseEntity<BaseResponse> listAll(){
         return new ResponseEntity<>(assignmentService.listAll(), HttpStatus.OK);
     }
-    @GetMapping("/list-filter")
+    @GetMapping("/filter")
     public ResponseEntity<DataListResponse> getAllPage(
             @RequestParam(name = "page_size", required = false, defaultValue = "10") int pageSize,
             @RequestParam(name = "page_number", required = false, defaultValue = "0") int pageNum,
@@ -36,21 +36,21 @@ public class AssignmentController {
     public ResponseEntity<BaseResponse> getById(@PathVariable Integer id) {
         return new ResponseEntity<>(assignmentService.findById(id), HttpStatus.OK);
     }
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<BaseResponse> createAssignment(@RequestBody CreateAssignmentDTO assignmentDTO) {
         return new ResponseEntity<>(assignmentService.create(assignmentDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<BaseResponse> updateAssignment(@RequestBody UpdateAssignmentDTO assignmentDTO) {
         return new ResponseEntity<>(assignmentService.update(assignmentDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<BaseResponse> deleteAssignment(@PathVariable Integer id) {
         return new ResponseEntity<>(assignmentService.delete(id), HttpStatus.OK);
     }
-    @DeleteMapping("/delete")
+    @DeleteMapping("/")
     public ResponseEntity<BaseResponse> deleteAssignments(
             @RequestBody List<Integer> idList) {
         return new ResponseEntity<>(assignmentService.deleteMultiple(idList), HttpStatus.OK);

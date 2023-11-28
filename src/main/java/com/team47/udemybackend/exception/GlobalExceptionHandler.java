@@ -66,4 +66,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                         .build()
                 );
     }
+    @ExceptionHandler(DiscussionNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleDiscussionNotFoundException(DiscussionNotFoundException ex, HttpServletRequest request){
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.NO_CONTENT.value());
+        errorObject.setTimestamp(new Date());
+        errorObject.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(SectionNotFoundException.class)
+    public ResponseEntity<ErrorObject> handleSectionNotFoundException(SectionNotFoundException ex, HttpServletRequest request){
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.NO_CONTENT.value());
+        errorObject.setTimestamp(new Date());
+        errorObject.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
 }

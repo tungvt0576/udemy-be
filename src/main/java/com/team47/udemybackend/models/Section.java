@@ -1,5 +1,6 @@
 package com.team47.udemybackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Section {
     @Column(name="name")
     private String name;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "course_id_sec")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

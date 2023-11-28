@@ -23,6 +23,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         errorObject.setTimestamp(new Date());
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorObject> handlerUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
+        errorObject.setTimestamp(new Date());
+        errorObject.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EnrollNotFoundException.class)
+    public ResponseEntity<ErrorObject> handlerEnrollNotFoundException(EnrollNotFoundException ex, WebRequest request) {
+        ErrorObject errorObject = new ErrorObject();
+        errorObject.setStatusCode(HttpStatus.NO_CONTENT.value());
+        errorObject.setTimestamp(new Date());
+        errorObject.setMessage(ex.getMessage());
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseResponse> handleException(HttpServletRequest request, Exception ex) {
         return this.toResponseEntity(ErrorCode.SYSTEM_UNAVAILABLE, ex.getMessage());

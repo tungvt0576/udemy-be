@@ -19,6 +19,7 @@ import java.util.List;
 public class AssignmentController {
     @Resource
     AssignmentService assignmentService;
+
     @GetMapping()
     public ResponseEntity<BaseResponse> listAll(){
         return new ResponseEntity<>(assignmentService.listAll(), HttpStatus.OK);

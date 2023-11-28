@@ -5,9 +5,9 @@ import com.team47.udemybackend.dto.AuthenticationRequest;
 import com.team47.udemybackend.dto.AuthenticationRespone;
 import com.team47.udemybackend.dto.LoginRequest;
 import com.team47.udemybackend.dto.RegisterRequest;
+import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.user.Role;
 import com.team47.udemybackend.user.User;
-import com.team47.udemybackend.user.UserRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +27,12 @@ import java.time.LocalDateTime;
 @Transactional
 @Slf4j
 public class AuthenticationService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
     public AuthenticationRespone register(RegisterRequest request) {
         var user = User.builder()
                 .name(request.getName())
@@ -49,7 +51,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationRespone authenticate(AuthenticationRequest request){
+    public AuthenticationRespone authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -63,6 +65,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
     public AuthenticationRespone login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

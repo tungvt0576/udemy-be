@@ -26,7 +26,7 @@ public class Assignment {
     @Column(name = "type")
     private String type;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
     @Column(name="attached_files_url")

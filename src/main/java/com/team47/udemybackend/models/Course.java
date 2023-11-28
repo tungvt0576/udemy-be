@@ -1,8 +1,12 @@
 package com.team47.udemybackend.models;
+
 import com.team47.udemybackend.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -54,9 +58,17 @@ public class Course {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    @Column(name = "total_enroll")
+    private Integer totalEnroll;
     @ManyToOne
     @JoinColumn(name = "user_id_cou")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
+
+    @ManyToMany(mappedBy = "enrolledCourses")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<User> enrolledUsers = new HashSet<>();
+
 }

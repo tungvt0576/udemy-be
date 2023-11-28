@@ -1,18 +1,14 @@
 package com.team47.udemybackend.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
-public class RegisterRequest {
-    private String name;
-    private String email;
-    private String password;
-//    private String role;
+public class ChangeMoneyRequest {
+    private Float changeAmount;
 }

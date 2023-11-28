@@ -1,4 +1,4 @@
-package com.team47.udemybackend.repository;
+package com.team47.udemybackend.user;
 
 import com.team47.udemybackend.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

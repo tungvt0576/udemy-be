@@ -5,7 +5,7 @@ import com.team47.udemybackend.dto.ChangePasswordRequest;
 import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.repository.CourseRepository;
-import com.team47.udemybackend.repository.UserRepository;
+import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.UserService;
 import com.team47.udemybackend.user.User;
 import lombok.AllArgsConstructor;

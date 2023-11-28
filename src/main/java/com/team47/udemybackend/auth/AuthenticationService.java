@@ -5,7 +5,7 @@ import com.team47.udemybackend.dto.AuthenticationRequest;
 import com.team47.udemybackend.dto.AuthenticationRespone;
 import com.team47.udemybackend.dto.LoginRequest;
 import com.team47.udemybackend.dto.RegisterRequest;
-import com.team47.udemybackend.repository.UserRepository;
+import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.user.Role;
 import com.team47.udemybackend.user.User;
 import lombok.Builder;

@@ -4,7 +4,7 @@ import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
 import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.repository.CourseRepository;
-import com.team47.udemybackend.repository.UserRepository;
+import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.CourseService;
 import com.team47.udemybackend.user.User;
 import lombok.Data;

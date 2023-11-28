@@ -1,6 +1,6 @@
 package com.team47.udemybackend.config;
 
-import com.team47.udemybackend.repository.UserRepository;
+import com.team47.udemybackend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

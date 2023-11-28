@@ -38,7 +38,7 @@ public class EnrollController {
     }
 
     @PostMapping("enroll/create/{courseID}/{userID}")
-    public ResponseEntity<Enroll> createNewEnroll(@PathVariable Integer courseID,@PathVariable Integer userID) throws UserNotFoundException, CourseNotFoundException {
+    public ResponseEntity<Enroll> createNewEnroll(@PathVariable Integer courseID, @PathVariable Integer userID) throws UserNotFoundException, CourseNotFoundException {
         return new ResponseEntity<>(enrollService.createEnroll(courseID, userID), HttpStatus.OK);
     }
 

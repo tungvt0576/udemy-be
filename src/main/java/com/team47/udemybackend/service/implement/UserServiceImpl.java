@@ -95,13 +95,6 @@ public class UserServiceImpl implements UserService {
         return mapToUserDTO(user);
     }
 
-//    @Override
-//    public List<Course> findCourseByEnrolledCourses(Integer userId) throws UserNotFoundException {
-//        Set<User> users = new HashSet<>();
-//        users.add(findUserByIDHelper(userId));
-//        return new ArrayList<>(courseRepository.findCoursesByEnrolledUsers(users));
-//    }
-
     @Override
     public User findUserByIDHelper(Integer userID) throws UserNotFoundException {
         Optional<User> result = Optional.ofNullable(userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException("User not found")));

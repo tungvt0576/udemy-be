@@ -65,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createNew(Course course,Principal connectedUser) {
+    public CourseDTO createNew(Course course, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         course.setUser(user);
         Course course_ = courseRepository.save(course);

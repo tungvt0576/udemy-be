@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,7 +64,7 @@ public class EnrollServiceImpl implements EnrollService {
 
     @Override
     public Enroll createEnroll(Integer courseID, Integer userID) throws UserNotFoundException, CourseNotFoundException {
-        if(enrollRepository.findEnrollsByCourseIdAndUserId(courseID, userID) == null) {
+        if (enrollRepository.findEnrollsByCourseIdAndUserId(courseID, userID) == null) {
             Enroll enroll = new Enroll();
             Course course = courseService.findCourseByIDHelper(courseID);
             enroll.setUser(userService.findUserByIDHelper(userID));
@@ -78,7 +76,7 @@ public class EnrollServiceImpl implements EnrollService {
             enroll.setCourse(course);
             enrollRepository.save(enroll);
             return enroll;
-        }else{
+        } else {
             throw new RuntimeException("Enroll already exist");
         }
     }

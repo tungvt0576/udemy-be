@@ -33,9 +33,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationRespone> login(
             @RequestBody LoginRequest request
     ) {
-        LOGGER.info("11111111111");
-        LOGGER.info(request.getEmail());
-        LOGGER.info(request.getPassword());
         return ResponseEntity.ok(service.login(request));
     }
 

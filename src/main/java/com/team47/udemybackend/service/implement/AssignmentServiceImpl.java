@@ -17,9 +17,10 @@ import org.springframework.stereotype.Service;
 public class AssignmentServiceImpl implements AssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepository;
+
     @Override
     public Page<Assignment> listAll() {
-        Pageable firstPageWithTwoElements  = PageRequest.of(0, 2);
+        Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
         Page<Assignment> assignments1 = assignmentRepository.findAll(firstPageWithTwoElements);
         return assignments1;
     }

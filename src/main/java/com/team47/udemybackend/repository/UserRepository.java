@@ -1,4 +1,4 @@
-package com.team47.udemybackend.user;
+package com.team47.udemybackend.repository;
 
 import com.team47.udemybackend.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findUserByEmail(String email);
+//    Set<User> findUserByEnrolledCourses(Set<Course> enrolledCourses);
 }

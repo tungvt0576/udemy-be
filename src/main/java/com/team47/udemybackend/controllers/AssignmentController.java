@@ -24,10 +24,11 @@ public class AssignmentController {
     AssignmentRepository assignmentRepository;
     @Resource
     AssignmentService assignmentService;
+
     @GetMapping("/list")
-    public ResponseEntity<List<Assignment>> getAll(){
+    public ResponseEntity<List<Assignment>> getAll() {
         try {
-            List<Assignment> assignments= new ArrayList<Assignment>();
+            List<Assignment> assignments = new ArrayList<Assignment>();
 
             assignmentRepository.findAll().forEach(assignments::add);
             if (assignments.isEmpty()) {
@@ -35,22 +36,21 @@ public class AssignmentController {
             }
 
             return new ResponseEntity<>(assignments, HttpStatus.OK);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/list-page")
-    public ResponseEntity<Page<Assignment>> getAllPage(){
+    public ResponseEntity<Page<Assignment>> getAllPage() {
         try {
-            Page<Assignment> assignments= assignmentService.listAll();
+            Page<Assignment> assignments = assignmentService.listAll();
             if (assignments.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
             return new ResponseEntity<>(assignments, HttpStatus.OK);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

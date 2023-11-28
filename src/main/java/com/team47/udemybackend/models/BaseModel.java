@@ -13,10 +13,10 @@ import java.util.Date;
 @Setter
 @Getter
 public class BaseModel {
-    @Column(name="created_at")
+    @Column(name = "created_at")
     private Date createdAt;
 
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     private Date updatedAt;
 
 }

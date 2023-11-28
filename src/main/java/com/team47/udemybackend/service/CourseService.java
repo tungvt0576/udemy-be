@@ -4,14 +4,26 @@ import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
 import com.team47.udemybackend.models.Course;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface CourseService {
-    public List<CourseDTO> findAll();
-    public CourseDTO findById(Integer id) throws CourseNotFoundException;
-    public List<CourseDTO> listAllByKeyword(String searchTitle);
-    public CourseDTO createNew(Course course);
-    public CourseDTO updateInfoById(CourseDTO courseDTO, Integer id) throws CourseNotFoundException;
+    List<CourseDTO> findAll();
 
-    public void delete(Integer id) throws CourseNotFoundException;
+    CourseDTO findById(Integer id) throws CourseNotFoundException;
+
+    List<CourseDTO> listAllByKeyword(String searchTitle) throws CourseNotFoundException;
+
+    CourseDTO createNew(Course course, Principal connectedUser);
+
+    CourseDTO updateInfoById(CourseDTO courseDTO, Integer id) throws CourseNotFoundException;
+
+    void delete(Integer id) throws CourseNotFoundException;
+
+    List<CourseDTO> findCourseCreatedByEmail(String email) throws CourseNotFoundException;
+
+    List<CourseDTO> findCourseCreatedById(Integer id) throws CourseNotFoundException;
+
+    Course findCourseByIDHelper(Integer courseID) throws CourseNotFoundException;
+//    public List<User> findUserByEnrolledCourse(Integer courseId) throws CourseNotFoundException;
 }

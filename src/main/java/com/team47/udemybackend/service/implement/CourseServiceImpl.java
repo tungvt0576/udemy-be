@@ -4,14 +4,18 @@ import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
 import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.repository.CourseRepository;
+import com.team47.udemybackend.repository.UserRepository;
 import com.team47.udemybackend.service.CourseService;
+import com.team47.udemybackend.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,11 +26,13 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    @Autowired
-    CourseRepository courseRepository;
+    private CourseRepository courseRepository;
+    private UserRepository userRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    @Autowired
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository) {
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,14 +41,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> listAllByKeyword(String keyword) {
+    public List<CourseDTO> listAllByKeyword(String keyword) throws CourseNotFoundException {
         try {
-            if(keyword != null){
+            if (keyword != null) {
                 return courseRepository.findByTitleContainingOrCategoryContaining(keyword, keyword).stream().map(this::mapToCourseDTO).collect(Collectors.toList());
             }
             return courseRepository.findAll().stream().map(this::mapToCourseDTO).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new RuntimeException("Server Error");
+            throw new CourseNotFoundException("Server Error");
         }
     }
 
@@ -50,19 +56,22 @@ public class CourseServiceImpl implements CourseService {
     public CourseDTO findById(Integer Id) throws CourseNotFoundException {
         Optional<Course> result = Optional.ofNullable(courseRepository.findById(Id).orElseThrow(() -> new CourseNotFoundException("Course not found")));
 
-        if(result.isPresent()){
+        if (result.isPresent()) {
             Course course = result.get();
             return mapToCourseDTO(course);
-        }else {
+        } else {
             throw new RuntimeException(String.format("Course Id: %d does not exist", Id));
         }
     }
 
     @Override
-    public CourseDTO createNew(Course course) {
+    public CourseDTO createNew(Course course,Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        course.setUser(user);
         Course course_ = courseRepository.save(course);
         return mapToCourseDTO(course_);
     }
+
     @Override
     public CourseDTO updateInfoById(CourseDTO courseDTO, Integer id) throws CourseNotFoundException {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Course could not be found"));
@@ -87,7 +96,7 @@ public class CourseServiceImpl implements CourseService {
         course.setLearningObject(courseDTO.getLearningObject());
         course.setPrimarilyTaught(courseDTO.getPrimarilyTaught());
 
-        Course course_ =  courseRepository.save(course);
+        Course course_ = courseRepository.save(course);
         return mapToCourseDTO(course_);
     }
 
@@ -97,7 +106,45 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(course);
     }
 
-    private CourseDTO mapToCourseDTO(Course course){
+    @Override
+    public List<CourseDTO> findCourseCreatedByEmail(String userName) throws CourseNotFoundException {
+        List<Course> result = courseRepository.findCoursesByUserEmail(userName);
+        if (result != null) {
+            return result.stream().map(this::mapToCourseDTO).collect(Collectors.toList());
+        } else {
+            throw new CourseNotFoundException("No course already enrolled");
+        }
+    }
+
+    @Override
+    public List<CourseDTO> findCourseCreatedById(Integer id) throws CourseNotFoundException {
+        List<Course> result = courseRepository.findCoursesByUserId(id);
+        if (result != null) {
+            return result.stream().map(this::mapToCourseDTO).collect(Collectors.toList());
+        } else {
+            throw new CourseNotFoundException("No course already enrolled");
+        }
+    }
+
+    @Override
+    public Course findCourseByIDHelper(Integer courseID) throws CourseNotFoundException {
+        Optional<Course> result = courseRepository.findById(courseID);
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            throw new CourseNotFoundException("No course already enrolled");
+        }
+    }
+
+//    @Override
+//    public List<User> findUserByEnrolledCourse(Integer courseId) throws CourseNotFoundException {
+//        Set<Course> courses = new HashSet<>();
+//        courses.add(findCourseByIDHelper(courseId));
+//        return new ArrayList<>(userRepository.findUserByEnrolledCourses(courses));
+//    }
+
+
+    public CourseDTO mapToCourseDTO(Course course) {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setCourseFor(course.getCourseFor());
         courseDTO.setCourseDescription((course.getCourseDescription()));
@@ -120,10 +167,11 @@ public class CourseServiceImpl implements CourseService {
         courseDTO.setPrimarilyTaught(course.getPrimarilyTaught());
         courseDTO.setTitle(course.getTitle());
         courseDTO.setRequiredSkills(course.getRequiredSkills());
+        courseDTO.setTotalEnroll(course.getTotalEnroll());
         return courseDTO;
     }
 
-    private Course mapToCourse(CourseDTO courseDTO){
+    public Course mapToCourse(CourseDTO courseDTO) {
         Course course = new Course();
         course.setCourseFor(courseDTO.getCourseFor());
         course.setTitle(courseDTO.getTitle());
@@ -146,6 +194,7 @@ public class CourseServiceImpl implements CourseService {
         course.setUpdatedAt(courseDTO.getUpdatedAt());
         course.setLearningObject(courseDTO.getLearningObject());
         course.setPrimarilyTaught(courseDTO.getPrimarilyTaught());
+        course.setTotalEnroll(courseDTO.getTotalEnroll());
         return course;
     }
 }

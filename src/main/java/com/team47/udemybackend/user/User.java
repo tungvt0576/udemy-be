@@ -4,11 +4,12 @@ import com.team47.udemybackend.models.Course;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,29 +18,41 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 public class User implements UserDetails {
+    @ManyToMany
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinTable(
+            name = "enrolls",
+            joinColumns = @JoinColumn(name = "user_id_enr"),
+            inverseJoinColumns = @JoinColumn(name = "course_id_enr")
+
+    )
+    public Set<Course> enrolledCourses = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "email")
     private String email;
     @Column(name = "role")
+    @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "password")
     private String password;
     @Column(name = "name")
     private String name;
+    @Column(name = "website")
+    private String website;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @Column(name = "website")
-    private String website;
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "description")
     private String description;
+    @Column(name = "money")
+    private Float money;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -69,6 +82,7 @@ public class User implements UserDetails {
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

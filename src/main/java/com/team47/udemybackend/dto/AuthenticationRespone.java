@@ -1,7 +1,6 @@
 package com.team47.udemybackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.NamedStoredProcedureQueries;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

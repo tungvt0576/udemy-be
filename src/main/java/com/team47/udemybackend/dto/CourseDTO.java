@@ -1,12 +1,12 @@
 package com.team47.udemybackend.dto;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,6 +17,7 @@ public class CourseDTO {
     private String requiredSkills;
     private String courseFor;
     private String title;
+    private Integer totalEnroll;
     private String subtitle;
     private String courseDescription;
     private String language;

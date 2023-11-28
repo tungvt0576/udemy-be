@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @Builder
 @Entity
-@Table(name="assignments")
+@Table(name = "assignments")
 public class Assignment extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,6 @@ public class Assignment extends BaseModel {
     @Column(name = "type")
     private String type;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 }

@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,7 +23,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private final UserService userService;
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/user")
     public ResponseEntity<List<UserDTO>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
@@ -48,6 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{userID}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable Integer userID) {
         userService.delete(userID);
         return new ResponseEntity<>("deleted user", HttpStatus.OK);
@@ -58,7 +60,7 @@ public class UserController {
         userService.changePassWord(request, connectedUser);
         return ResponseEntity.ok().build();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/user/money/{userID}")
     public ResponseEntity<?> updateMoney(@RequestBody ChangeMoneyRequest changedAmount, @PathVariable Integer userID) throws UserNotFoundException {
         userService.changeMoney(changedAmount, userID);

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,7 +90,7 @@ public class UserServiceImpl implements UserService {
         user.setWebsite(userDTO.getWebsite());
         user.setDescription(userDTO.getDescription());
         user.setCreatedAt(userDTO.getCreatedAt());
-        user.setUpdatedAt(userDTO.getUpdatedAt());
+        user.setUpdatedAt(LocalDateTime.now());
         user.setMoney(userDTO.getMoney());
         user.setRole(userDTO.getRole());
         return mapToUserDTO(user);
@@ -113,7 +114,7 @@ public class UserServiceImpl implements UserService {
         userDTO.setWebsite(user.getWebsite());
         userDTO.setDescription(user.getDescription());
         userDTO.setCreatedAt(user.getCreatedAt());
-        userDTO.setUpdatedAt(user.getUpdatedAt());
+        userDTO.setUpdatedAt(LocalDateTime.now());
         userDTO.setMoney(user.getMoney());
         userDTO.setRole(user.getRole());
         return userDTO;

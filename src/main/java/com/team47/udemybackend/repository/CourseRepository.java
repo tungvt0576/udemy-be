@@ -13,7 +13,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findCoursesByUserEmail(String email);
 
     List<Course> findCoursesByUserId(Integer id);
-//    Set<Course> findCoursesByEnrolledUsers(Set<User> enrolledUsers);
 
 }
 

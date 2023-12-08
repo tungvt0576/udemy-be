@@ -34,15 +34,21 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("api/v1/auth/**", "api/v1/enroll/**", "api/v1/course/**", "/swagger-ui/**", "/v3/api-docs/**")
+                        .requestMatchers("api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
+                        .requestMatchers("api/v1/course/**").hasAnyRole(ADMIN.name(), USER.name())
+
+                        .requestMatchers("api/v1/enroll/**").hasAnyRole(ADMIN.name(), USER.name())
+                        .requestMatchers("api/v1/enroll/**").hasAnyAuthority(USER_CREATE.name(), ADMIN_CREATE.name())
+                        .requestMatchers("api/v1/enroll/**").hasAnyAuthority(USER_READ.name(), ADMIN_READ.name())
+                        .requestMatchers("api/v1/enroll/**").hasAnyAuthority(ADMIN_DELETE.name())
 
                         .requestMatchers("/api/v1/user/**").hasAnyRole(ADMIN.name(), USER.name())
 
                         .requestMatchers(GET, "/api/v1/user/**").hasAnyAuthority(ADMIN_READ.name(), USER_READ.name())
                         .requestMatchers(POST, "/api/v1/user/**").hasAnyAuthority(ADMIN_CREATE.name(), USER_CREATE.name())
                         .requestMatchers(PUT, "/api/v1/user/**").hasAnyAuthority(ADMIN_UPDATE.name(), USER_UPDATE.name())
-                        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyAuthority(ADMIN_DELETE.name(), USER_DELETE.name())
+                        .requestMatchers(DELETE, "/api/v1/user/**").hasAnyAuthority(ADMIN_DELETE.name())
 
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
                         .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,7 +93,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCongratulationMessage(courseDTO.getCongratulationMessage());
         course.setSubtitle(courseDTO.getSubtitle());
         course.setStatus(courseDTO.getStatus());
-        course.setUpdatedAt(courseDTO.getUpdatedAt());
+        course.setUpdatedAt(LocalDateTime.now());
         course.setLearningObject(courseDTO.getLearningObject());
         course.setPrimarilyTaught(courseDTO.getPrimarilyTaught());
 
@@ -162,7 +163,7 @@ public class CourseServiceImpl implements CourseService {
         courseDTO.setCongratulationMessage(course.getCongratulationMessage());
         courseDTO.setSubtitle(course.getSubtitle());
         courseDTO.setStatus(course.getStatus());
-        courseDTO.setUpdatedAt(course.getUpdatedAt());
+        courseDTO.setUpdatedAt(LocalDateTime.now());
         courseDTO.setLearningObject(course.getLearningObject());
         courseDTO.setPrimarilyTaught(course.getPrimarilyTaught());
         courseDTO.setTitle(course.getTitle());

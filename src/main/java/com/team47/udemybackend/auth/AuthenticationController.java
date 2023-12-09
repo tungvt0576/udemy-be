@@ -4,6 +4,7 @@ import com.team47.udemybackend.dto.AuthenticationRequest;
 import com.team47.udemybackend.dto.AuthenticationRespone;
 import com.team47.udemybackend.dto.LoginRequest;
 import com.team47.udemybackend.dto.RegisterRequest;
+import com.team47.udemybackend.dto.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class AuthenticationController {
     Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationRespone> register(
+    public ResponseEntity<BaseResponse> register(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.register(request));

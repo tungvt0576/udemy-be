@@ -94,6 +94,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationRespone.builder()
                     .token(jwtToken)
+                    .userId(user.getId())
                     .build();
         } catch (Exception e){
             throw new UdemyRuntimeException(e.getMessage());

@@ -1,9 +1,14 @@
 package com.team47.udemybackend.service.implement;
 
 import com.team47.udemybackend.dto.CourseDTO;
+import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
+import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Course;
+import com.team47.udemybackend.models.Enroll;
 import com.team47.udemybackend.repository.CourseRepository;
+import com.team47.udemybackend.repository.EnrollRepository;
+import com.team47.udemybackend.service.UserService;
 import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.CourseService;
 import com.team47.udemybackend.user.User;
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,11 +35,14 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
     private CourseRepository courseRepository;
     private UserRepository userRepository;
+    private EnrollRepository enrollRepository;
+    private UserService userService;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, EnrollRepository enrollRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.enrollRepository = enrollRepository;
     }
 
     @Override
@@ -113,7 +122,7 @@ public class CourseServiceImpl implements CourseService {
         if (result != null) {
             return result.stream().map(this::mapToCourseDTO).collect(Collectors.toList());
         } else {
-            throw new CourseNotFoundException("No course already enrolled");
+            throw new CourseNotFoundException("No course created");
         }
     }
 
@@ -137,13 +146,16 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-//    @Override
-//    public List<User> findUserByEnrolledCourse(Integer courseId) throws CourseNotFoundException {
-//        Set<Course> courses = new HashSet<>();
-//        courses.add(findCourseByIDHelper(courseId));
-//        return new ArrayList<>(userRepository.findUserByEnrolledCourses(courses));
-//    }
+    @Override
+    public List<CourseDTO> findCoursesByEnrolledUser(Integer userId) throws CourseNotFoundException, UserNotFoundException {
+        List<Enroll> enrolls = enrollRepository.findEnrollsByUserId(userId).stream().toList();
+        List<CourseDTO> courseDTOS = new ArrayList<>();
+        for(Enroll enrollment : enrolls){
+            courseDTOS.add(mapToCourseDTO(enrollment.getCourse()));
+        }
 
+        return courseDTOS;
+    }
 
     public CourseDTO mapToCourseDTO(Course course) {
         CourseDTO courseDTO = new CourseDTO();

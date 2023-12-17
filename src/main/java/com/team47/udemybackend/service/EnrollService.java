@@ -8,9 +8,9 @@ import com.team47.udemybackend.models.Enroll;
 import java.util.Set;
 
 public interface EnrollService {
-    Set<Enroll> findAllEnrollByCourseId(Integer courseID);
+    Set<Enroll> findAllEnrollByCourseId(Integer courseID) throws EnrollNotFoundException;
 
-    Set<Enroll> findAllEnrollByUserID(Integer userID);
+    Set<Enroll> findAllEnrollByUserID(Integer userID) throws EnrollNotFoundException;
 
     Enroll findEnrollByID(Integer enrollID) throws EnrollNotFoundException;
 

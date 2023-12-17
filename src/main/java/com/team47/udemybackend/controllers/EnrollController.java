@@ -28,12 +28,12 @@ public class EnrollController {
     }
 
     @GetMapping("enroll/user/{userID}")
-    public ResponseEntity<Set<Enroll>> findEnrollByUserId(@PathVariable Integer userID) {
+    public ResponseEntity<Set<Enroll>> findEnrollByUserId(@PathVariable Integer userID) throws EnrollNotFoundException {
         return new ResponseEntity<>(enrollService.findAllEnrollByUserID(userID), HttpStatus.OK);
     }
 
     @GetMapping("enroll/course/{courseID}")
-    public ResponseEntity<Set<Enroll>> findEnrollByCourseId(@PathVariable Integer courseID) {
+    public ResponseEntity<Set<Enroll>> findEnrollByCourseId(@PathVariable Integer courseID) throws EnrollNotFoundException {
         return new ResponseEntity<>(enrollService.findAllEnrollByCourseId(courseID), HttpStatus.OK);
     }
 

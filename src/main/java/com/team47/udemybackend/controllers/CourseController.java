@@ -2,6 +2,7 @@ package com.team47.udemybackend.controllers;
 
 import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
+import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.service.CourseService;
 import org.slf4j.Logger;
@@ -66,5 +67,9 @@ public class CourseController {
     public ResponseEntity<String> deleteById(@PathVariable Integer courseId) throws CourseNotFoundException {
         courseService.delete(courseId);
         return new ResponseEntity<>("Course deleted", HttpStatus.OK);
+    }
+    @GetMapping("/course/enrolled/{userId}")
+    public ResponseEntity<List<CourseDTO>> findCourseByUserId(@PathVariable Integer userId) throws CourseNotFoundException, UserNotFoundException {
+        return new ResponseEntity<>(courseService.findCoursesByEnrolledUser(userId), HttpStatus.OK);
     }
 }

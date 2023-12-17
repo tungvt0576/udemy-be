@@ -4,6 +4,7 @@ import com.team47.udemybackend.dto.ChangeMoneyRequest;
 import com.team47.udemybackend.dto.ChangePasswordRequest;
 import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
+import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.user.User;
 
 import java.security.Principal;
@@ -25,5 +26,6 @@ public interface UserService {
     UserDTO updatedByID(UserDTO userDTO, Integer userID) throws UserNotFoundException;
 
     User findUserByIDHelper(Integer userID) throws UserNotFoundException;
-//    public List<Course> findCourseByEnrolledCourses(Integer userId) throws UserNotFoundException;
+
+   List<UserDTO> findUsersByEnrolledCourses(Integer courseId) throws UserNotFoundException;
 }

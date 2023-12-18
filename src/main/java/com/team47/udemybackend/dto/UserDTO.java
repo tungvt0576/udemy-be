@@ -16,8 +16,8 @@ public class UserDTO {
     private String website;
     private String avatar;
     private String description;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime updatedAt;
     private Float money;
     private Role role;
 

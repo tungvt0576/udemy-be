@@ -17,7 +17,7 @@ public interface CourseService {
 
     List<CourseDTO> listAllByKeyword(String searchTitle) throws CourseNotFoundException;
 
-    CourseDTO createNew(Course course, Principal connectedUser);
+    Course createNew(CourseDTO courseDTO, Principal connectedUser);
 
     CourseDTO updateInfoById(CourseDTO courseDTO, Integer id) throws CourseNotFoundException;
 

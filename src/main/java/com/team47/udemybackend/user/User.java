@@ -1,5 +1,6 @@
 package com.team47.udemybackend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team47.udemybackend.models.Course;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class User implements UserDetails {
     @ManyToMany
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     @ToString.Exclude
     @JoinTable(
             name = "enrolls",
@@ -55,6 +57,7 @@ public class User implements UserDetails {
     private Float money;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     @ToString.Exclude
     private Collection<Course> courses;
 

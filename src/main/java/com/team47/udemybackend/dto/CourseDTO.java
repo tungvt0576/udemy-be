@@ -32,6 +32,6 @@ public class CourseDTO {
     private String status;
     private float rating;
     private int sale;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime updatedAt;
 }

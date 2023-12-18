@@ -95,7 +95,6 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDTO.getEmail());
         user.setWebsite(userDTO.getWebsite());
         user.setDescription(userDTO.getDescription());
-        user.setCreatedAt(userDTO.getCreatedAt());
         user.setUpdatedAt(LocalDateTime.now());
         user.setMoney(userDTO.getMoney());
         user.setRole(userDTO.getRole());
@@ -128,8 +127,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setEmail(user.getEmail());
         userDTO.setWebsite(user.getWebsite());
         userDTO.setDescription(user.getDescription());
-        userDTO.setCreatedAt(user.getCreatedAt());
-        userDTO.setUpdatedAt(LocalDateTime.now());
         userDTO.setMoney(user.getMoney());
         userDTO.setRole(user.getRole());
         return userDTO;
@@ -141,8 +138,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDTO.getEmail());
         user.setWebsite(userDTO.getWebsite());
         user.setDescription(userDTO.getDescription());
-        user.setCreatedAt(userDTO.getCreatedAt());
-        user.setUpdatedAt(userDTO.getUpdatedAt());
+        user.setUpdatedAt(LocalDateTime.now());
         user.setMoney(userDTO.getMoney());
         return user;
     }

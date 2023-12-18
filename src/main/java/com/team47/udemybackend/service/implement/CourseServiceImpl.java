@@ -75,11 +75,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createNew(Course course, Principal connectedUser) {
+    public Course createNew(CourseDTO courseDTO, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        Course course = mapToCourse(courseDTO);
         course.setUser(user);
-        Course course_ = courseRepository.save(course);
-        return mapToCourseDTO(course_);
+        course.setCreatedAt(LocalDateTime.now());
+        course.setUpdatedAt(LocalDateTime.now());
+        return courseRepository.save(course);
     }
 
     @Override
@@ -95,7 +97,8 @@ public class CourseServiceImpl implements CourseService {
         course.setLevel(courseDTO.getLevel());
         course.setPrice(courseDTO.getPrice());
         course.setRating(courseDTO.getRating());
-        course.setCreatedAt(courseDTO.getCreatedAt());
+        course.setUpdatedAt(LocalDateTime.now());
+//        course.setCreatedAt(courseDTO.getCreatedAt());
         course.setId(courseDTO.getId());
         course.setSale(courseDTO.getSale());
         course.setWelcomeMessage(courseDTO.getWelcomeMessage());
@@ -168,14 +171,14 @@ public class CourseServiceImpl implements CourseService {
         courseDTO.setLevel(course.getLevel());
         courseDTO.setPrice(course.getPrice());
         courseDTO.setRating(course.getRating());
-        courseDTO.setCreatedAt(course.getCreatedAt());
+//        courseDTO.setCreatedAt(course.getCreatedAt());
         courseDTO.setId(course.getId());
         courseDTO.setSale(course.getSale());
         courseDTO.setWelcomeMessage(course.getWelcomeMessage());
         courseDTO.setCongratulationMessage(course.getCongratulationMessage());
         courseDTO.setSubtitle(course.getSubtitle());
         courseDTO.setStatus(course.getStatus());
-        courseDTO.setUpdatedAt(LocalDateTime.now());
+//        courseDTO.setUpdatedAt(LocalDateTime.now());
         courseDTO.setLearningObject(course.getLearningObject());
         courseDTO.setPrimarilyTaught(course.getPrimarilyTaught());
         courseDTO.setTitle(course.getTitle());
@@ -197,14 +200,14 @@ public class CourseServiceImpl implements CourseService {
         course.setLevel(courseDTO.getLevel());
         course.setPrice(courseDTO.getPrice());
         course.setRating(courseDTO.getRating());
-        course.setCreatedAt(courseDTO.getCreatedAt());
+//        course.setCreatedAt(courseDTO.getCreatedAt());
         course.setId(courseDTO.getId());
         course.setSale(courseDTO.getSale());
         course.setWelcomeMessage(courseDTO.getWelcomeMessage());
         course.setCongratulationMessage(courseDTO.getCongratulationMessage());
         course.setSubtitle(courseDTO.getSubtitle());
         course.setStatus(courseDTO.getStatus());
-        course.setUpdatedAt(courseDTO.getUpdatedAt());
+        course.setUpdatedAt(LocalDateTime.now());
         course.setLearningObject(courseDTO.getLearningObject());
         course.setPrimarilyTaught(courseDTO.getPrimarilyTaught());
         course.setTotalEnroll(courseDTO.getTotalEnroll());

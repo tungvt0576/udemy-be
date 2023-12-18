@@ -53,7 +53,7 @@ public class CourseController {
 //        return new ResponseEntity<>(courseService.findUserByEnrolledCourse(courseID), HttpStatus.OK);
 //    }
     @PostMapping("/course")
-    public ResponseEntity<CourseDTO> addNewCourse(@RequestBody Course course, Principal connectedUser) {
+    public ResponseEntity<Course> addNewCourse(@RequestBody CourseDTO course, Principal connectedUser) {
         return new ResponseEntity<>(courseService.createNew(course, connectedUser), HttpStatus.OK);
     }
 

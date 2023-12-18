@@ -38,13 +38,23 @@ public class EnrollServiceImpl implements EnrollService {
 
 
     @Override
-    public Set<Enroll> findAllEnrollByCourseId(Integer courseID) {
-        return enrollRepository.findEnrollsByCourseId(courseID);
+    public Set<Enroll> findAllEnrollByCourseId(Integer courseID) throws EnrollNotFoundException {
+        Set<Enroll> enrolls = enrollRepository.findEnrollsByCourseId(courseID);
+        if(enrolls != null){
+            return enrolls;
+        }else {
+            throw new EnrollNotFoundException("Enroll not found");
+        }
     }
 
     @Override
-    public Set<Enroll> findAllEnrollByUserID(Integer userID) {
-        return enrollRepository.findEnrollsByUserId(userID);
+    public Set<Enroll> findAllEnrollByUserID(Integer userID) throws EnrollNotFoundException {
+        Set<Enroll> enrolls = enrollRepository.findEnrollsByUserId(userID);
+        if(enrolls != null){
+            return enrolls;
+        }else {
+            throw new EnrollNotFoundException("Enroll not found");
+        }
     }
 
     @Override

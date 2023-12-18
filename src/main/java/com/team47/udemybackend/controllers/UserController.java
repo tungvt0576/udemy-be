@@ -2,8 +2,10 @@ package com.team47.udemybackend.controllers;
 
 import com.team47.udemybackend.dto.ChangeMoneyRequest;
 import com.team47.udemybackend.dto.ChangePasswordRequest;
+import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
+import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,16 +35,20 @@ public class UserController {
     public ResponseEntity<UserDTO> findByID(@PathVariable Integer userID) throws UserNotFoundException {
         return new ResponseEntity<>(userService.findUserById(userID), HttpStatus.OK);
     }
+    @GetMapping("/user/enrolled/{courseId}")
+    public ResponseEntity<List<UserDTO>> findUserEnrolledCourse(@PathVariable Integer courseId) throws UserNotFoundException {
+        return new ResponseEntity<>(userService.findUsersByEnrolledCourses(courseId),HttpStatus.OK);
+    }
 
     @GetMapping("/user/email")
     public ResponseEntity<UserDTO> findByEmail(@RequestParam String email) throws UserNotFoundException {
         return new ResponseEntity<>(userService.findUserByEmail(email), HttpStatus.OK);
     }
 
-    //    @GetMapping("/user/enroll/list/{userID}")
-//    public ResponseEntity<List<Course>> findEnrolledCourse(@PathVariable Integer userID) throws UserNotFoundException {
-//        return new ResponseEntity<>(userService.findCourseByEnrolledCourses(userID), HttpStatus.OK);
-//    }
+    @GetMapping("/user/enroll/list/{courseID}")
+    public ResponseEntity<List<UserDTO>> findEnrolledUserByCourse(@PathVariable Integer courseID) throws UserNotFoundException {
+        return new ResponseEntity<>(userService.findUsersByEnrolledCourses(courseID), HttpStatus.OK);
+    }
     @PutMapping("/user/update/{userID}")
     public ResponseEntity<UserDTO> updateInfo(@PathVariable Integer userID, @RequestBody UserDTO userDTO) throws UserNotFoundException {
         return new ResponseEntity<>(userService.updatedByID(userDTO, userID), HttpStatus.OK);

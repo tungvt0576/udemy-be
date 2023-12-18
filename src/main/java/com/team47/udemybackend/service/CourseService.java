@@ -2,10 +2,13 @@ package com.team47.udemybackend.service;
 
 import com.team47.udemybackend.dto.CourseDTO;
 import com.team47.udemybackend.exception.CourseNotFoundException;
+import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Course;
+import com.team47.udemybackend.user.User;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 public interface CourseService {
     List<CourseDTO> findAll();
@@ -25,5 +28,8 @@ public interface CourseService {
     List<CourseDTO> findCourseCreatedById(Integer id) throws CourseNotFoundException;
 
     Course findCourseByIDHelper(Integer courseID) throws CourseNotFoundException;
+    List<CourseDTO> findCoursesByEnrolledUser(Integer userId) throws CourseNotFoundException, UserNotFoundException;
+
+//    List<CourseDTO> findCoursesByEnrolledUser(Set<User> user) throws CourseNotFoundException;
 //    public List<User> findUserByEnrolledCourse(Integer courseId) throws CourseNotFoundException;
 }

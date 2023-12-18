@@ -4,7 +4,9 @@ import com.team47.udemybackend.dto.ChangeMoneyRequest;
 import com.team47.udemybackend.dto.ChangePasswordRequest;
 import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
+import com.team47.udemybackend.models.Enroll;
 import com.team47.udemybackend.repository.CourseRepository;
+import com.team47.udemybackend.repository.EnrollRepository;
 import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.UserService;
 import com.team47.udemybackend.user.User;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +36,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final CourseRepository courseRepository;
+    @Autowired
+    private final EnrollRepository enrollRepository;
+
 
     @Override
     public List<UserDTO> findAll() {
@@ -105,6 +111,15 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(String.format("User ID: %d not found", userID));
         }
     }
+    @Override
+    public List<UserDTO> findUsersByEnrolledCourses(Integer courseId) throws UserNotFoundException {
+        List<Enroll> enrolls = enrollRepository.findEnrollsByCourseId(courseId).stream().toList();
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(Enroll enrollment : enrolls){
+            userDTOS.add(mapToUserDTO(enrollment.getUser()));
+        }
+        return userDTOS;
+    }
 
     private UserDTO mapToUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
@@ -119,7 +134,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setRole(user.getRole());
         return userDTO;
     }
-
     private User mapToUser(UserDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());

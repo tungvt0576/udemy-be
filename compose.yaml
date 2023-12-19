@@ -1,8 +1,45 @@
+#services:
+#  mysql:
+#   r'
+#    environment:
+#      - 'MYSQL_DATABASE=udemy_sys_db'
+#      - 'MYSQL_ROOT_PASSWORD=verysecret'
+#    ports:
+#      - '3307:3306'
+
+
+version: '3'
+
 services:
-  mysql:
-    image: 'mysql:latest'
-    environment:
-      - 'MYSQL_DATABASE=udemy_sys_db'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
+  udemy-be:
+    image: tungvt200576/udemy-be
+    container_name: udemy-be
     ports:
-      - '3307:3306'
+      - "8087:8087"
+    networks:
+      - udemy-network
+    restart: always
+    environment:
+      URL_DATABASE: jdbc:mysql://mysql:3306/udemy
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    networks:
+      - udemy-network
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: udemy
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+    ports:
+      - "31060:3306"
+
+networks:
+  udemy-network:
+    driver: bridge

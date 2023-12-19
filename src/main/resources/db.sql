@@ -392,5 +392,43 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+# User has password that encoded so can't insert to db directly
+# All request body is json file
 
--- Dump completed on 2023-12-09 11:19:32
+# Step1: Register with
+# { "email":"abcd@gmail.com",
+#     "name":"ABC",
+#     "password": "123456789"}
+# Step2: Login with email+ pass by using api login
+# Step3: Using API update (http://localhost:8087/api/v1/user/update/1) with body
+# format here
+#     {
+#     "email": "minhtuyen123456789@gmail.com",
+#     "name": "Truong Minh Tuyen",
+#     "website": "https://www.amigoscode.com/",
+#     "avatar": "https://s.net.vn/irP0",
+#     "description": "very good",
+#     "createdAt": null,
+#     "updatedAt": "2023-12-08T07:59:19.414221",
+#     "money": null,
+#     "role": "USER"
+# }
+
+INSERT INTO `discussions` (`comment`, `created_at`, `updated_at`,`lecture_id_dis`,`user_id_dis`)
+VALUES
+    ('This course verry good for beginner learner', '2023-12-08T07:59:19.414221', '2023-12-08T07:59:19.414221',1, 1);
+INSERT INTO `discussions` (`comment`, `created_at`, `updated_at`,`lecture_id_dis`,`user_id_dis`)
+VALUES
+    ('This course very clear', '2023-12-08T07:59:19.414221', '2023-12-08T07:59:19.414221',1, 2);
+
+INSERT INTO `enrolls` (`created_at`, `type`, `updated_at`, `course_id_enr`, `user_id_enr`)
+VALUES ('2023-12-08T07:59:19.414221', 'full time', '2023-12-08T07:59:19.414221', 2, 1);
+INSERT INTO `enrolls` (`created_at`, `type`, `updated_at`, `course_id_enr`, `user_id_enr`)
+VALUES ('2023-12-08T07:59:19.414221', 'full time', '2023-12-08T07:59:19.414221', 2, 2);
+
+INSERT INTO `sections` (`created_at`, `name`, `updated_at`, `course_id_sec`)
+VALUES ('2023-12-08 13:33:22.006298', 'Section 1', '2023-12-08 13:33:22.006298', 1);
+
+INSERT INTO `sections` (`created_at`, `name`, `updated_at`, `course_id_sec`)
+VALUES ('2023-12-08 13:33:22.006298', 'Section 2', '2023-12-08 13:33:22.006298', 1);
+

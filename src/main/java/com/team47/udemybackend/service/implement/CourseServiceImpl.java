@@ -78,6 +78,7 @@ public class CourseServiceImpl implements CourseService {
     public Course createNew(CourseDTO courseDTO, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         Course course = mapToCourse(courseDTO);
+        course.setTotalEnroll(0);
         course.setUser(user);
         course.setCreatedAt(LocalDateTime.now());
         course.setUpdatedAt(LocalDateTime.now());
@@ -100,7 +101,7 @@ public class CourseServiceImpl implements CourseService {
         course.setRating(courseDTO.getRating());
         course.setUpdatedAt(LocalDateTime.now());
         course.setTitle(courseDTO.getTitle());
-        course.setId(courseDTO.getId());
+//        course.setId(courseDTO.getId());
         course.setSale(courseDTO.getSale());
         course.setWelcomeMessage(courseDTO.getWelcomeMessage());
         course.setCongratulationMessage(courseDTO.getCongratulationMessage());

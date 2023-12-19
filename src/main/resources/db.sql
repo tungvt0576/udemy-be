@@ -195,7 +195,6 @@ VALUES
 
 INSERT INTO `enrolls` (`created_at`, `type`, `updated_at`, `course_id_enr`, `user_id_enr`)
 VALUES ('2023-12-08T07:59:19.414221', 'full time', '2023-12-08T07:59:19.414221', 2, 1);
-
 INSERT INTO `enrolls` (`created_at`, `type`, `updated_at`, `course_id_enr`, `user_id_enr`)
 VALUES ('2023-12-08T07:59:19.414221', 'full time', '2023-12-08T07:59:19.414221', 2, 2);
 

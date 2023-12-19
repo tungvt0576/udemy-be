@@ -22,6 +22,7 @@ public class UpdateFeedbackDTO {
         private Timestamp time;
         @JsonProperty("course_id")
         private int courseID;
+        @JsonIgnore
         @JsonProperty("user_id")
         private int userID;
         @JsonIgnore

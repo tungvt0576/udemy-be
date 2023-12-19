@@ -15,6 +15,7 @@ import com.team47.udemybackend.repository.FeedbackRepository;
 import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.FeedbackService;
 import com.team47.udemybackend.user.User;
+import com.team47.udemybackend.utils.AuthTokenUtil;
 import com.team47.udemybackend.utils.UtilsFunctions;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -115,6 +116,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public BaseResponse create(CreateFeedbackDTO createFeedbackDTO) {
         try {
+            int currentUserID = AuthTokenUtil.getCurrentUserId();
+            createFeedbackDTO.setUserID(currentUserID);
             Feedback newFeedback = mapToFeedback(createFeedbackDTO);
             feedbackRepository.save(newFeedback);
 
@@ -127,6 +130,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public BaseResponse update(UpdateFeedbackDTO updateFeedbackDTO) {
         try {
+            int currentUserID = AuthTokenUtil.getCurrentUserId();
+            updateFeedbackDTO.setUserID(currentUserID);
             int feedbackId = updateFeedbackDTO.getId();
             Optional<Feedback> existingFeedbackOptional = feedbackRepository.findById(feedbackId);
 

@@ -78,6 +78,7 @@ public class EnrollServiceImpl implements EnrollService {
             Enroll enroll = new Enroll();
             Course course = courseService.findCourseByIDHelper(courseID);
             enroll.setUser(userService.findUserByIDHelper(userID));
+            enroll.setType("Full time");
             enroll.setCreatedAt(LocalDateTime.now());
             enroll.setUpdatedAt(LocalDateTime.now());
 

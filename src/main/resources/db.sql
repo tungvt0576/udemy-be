@@ -163,6 +163,7 @@ INSERT INTO `courses` (`learning_object`, `required_skills`, `course_for`, `titl
 VALUES
     ('Master Python', 'Basic programing', 'Python Beginer', 'Python Botcamp', 'Top 1 Python course', 'Complete Java Python skill', 'from zero to hero', 'English', 'All level', 'IT Course', 'https://bom.so/2sHCna', 'https://www.youtube.com/watch?v=XKHEtdqhLK8', 50, 'Wellcome','Congratulation completed this course', 'Already enroll', 4.7, 90, '2023-06-15 10:23:30', '2023-06-15 10:23:30', 1);
 
+
 # User has password that encoded so can't insert to db directly
 # All request body is json file
 

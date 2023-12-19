@@ -92,13 +92,14 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseDescription((courseDTO.getCourseDescription()));
         course.setCourseImageUrl(courseDTO.getCourseImageUrl());
         course.setId(courseDTO.getId());
+//        course.setTotalEnroll(courseDTO.getTotalEnroll());
         course.setCategory(courseDTO.getCategory());
         course.setLanguage(courseDTO.getLanguage());
         course.setLevel(courseDTO.getLevel());
         course.setPrice(courseDTO.getPrice());
         course.setRating(courseDTO.getRating());
         course.setUpdatedAt(LocalDateTime.now());
-//        course.setCreatedAt(courseDTO.getCreatedAt());
+        course.setTitle(courseDTO.getTitle());
         course.setId(courseDTO.getId());
         course.setSale(courseDTO.getSale());
         course.setWelcomeMessage(courseDTO.getWelcomeMessage());

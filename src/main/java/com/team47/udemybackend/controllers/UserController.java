@@ -22,6 +22,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @RequestMapping("api/v1")
+@CrossOrigin
 public class UserController {
     @Autowired
     private final UserService userService;

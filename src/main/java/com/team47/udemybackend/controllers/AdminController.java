@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/admin")
 @PreAuthorize("hasRole('ADMIN')")
 @Data
+@CrossOrigin
 public class AdminController {
 
     private final UserService userService;

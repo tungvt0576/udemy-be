@@ -15,6 +15,7 @@ import java.util.Set;
 @Data
 @RestController
 @RequestMapping("api/v1")
+@CrossOrigin
 public class EnrollController {
     private final EnrollService enrollService;
 

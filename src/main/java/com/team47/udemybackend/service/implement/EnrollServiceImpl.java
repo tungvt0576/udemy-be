@@ -10,6 +10,8 @@ import com.team47.udemybackend.repository.EnrollRepository;
 import com.team47.udemybackend.service.CourseService;
 import com.team47.udemybackend.service.EnrollService;
 import com.team47.udemybackend.service.UserService;
+import com.team47.udemybackend.user.User;
+import com.team47.udemybackend.user.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,15 @@ public class EnrollServiceImpl implements EnrollService {
     private final CourseService courseService;
     private final CourseRepository courseRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public EnrollServiceImpl(EnrollRepository enrollRepository, CourseService courseService, CourseRepository courseRepository, UserService userService) {
+    public EnrollServiceImpl(EnrollRepository enrollRepository, CourseService courseService, CourseRepository courseRepository, UserService userService, UserRepository userRepository) {
         this.enrollRepository = enrollRepository;
         this.courseService = courseService;
         this.courseRepository = courseRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
 
@@ -77,16 +81,24 @@ public class EnrollServiceImpl implements EnrollService {
         if (enrollRepository.findEnrollsByCourseIdAndUserId(courseID, userID) == null) {
             Enroll enroll = new Enroll();
             Course course = courseService.findCourseByIDHelper(courseID);
-            enroll.setUser(userService.findUserByIDHelper(userID));
-            enroll.setType("Full time");
-            enroll.setCreatedAt(LocalDateTime.now());
-            enroll.setUpdatedAt(LocalDateTime.now());
+            User user = userService.findUserByIDHelper(userID);
+            if(user.getMoney() >= course.getPrice()){
+                user.setMoney(user.getMoney() - course.getPrice());
+//                userService.updatedByID(userService.mapToUserDTO(user), userID);
+                userRepository.save(user);
+                enroll.setUser(user);
+                enroll.setType("Full time");
+                enroll.setCreatedAt(LocalDateTime.now());
+                enroll.setUpdatedAt(LocalDateTime.now());
 
-            course.setTotalEnroll(course.getTotalEnroll() + 1);
-            courseRepository.save(course);
-            enroll.setCourse(course);
-            enrollRepository.save(enroll);
-            return enroll;
+                course.setTotalEnroll(course.getTotalEnroll() + 1);
+                courseRepository.save(course);
+                enroll.setCourse(course);
+                enrollRepository.save(enroll);
+                return enroll;
+            }else {
+                throw new RuntimeException("Your remaining amount is not enough to buy the course");
+            }
         } else {
             throw new RuntimeException("Enroll already exist");
         }

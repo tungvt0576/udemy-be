@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("${api.prefix}/assignments-submission")
+@CrossOrigin
 public class AssignmentsSubmissionController {
     @Resource
     AssignmentsSubmissionService assignmentsSubmissionService;

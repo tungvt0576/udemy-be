@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("${api.prefix}/feedback")
+@CrossOrigin
 public class FeedbackController {
 
     @Resource

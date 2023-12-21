@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
+@CrossOrigin
 public class CourseController {
     Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
     @Autowired
@@ -33,7 +34,7 @@ public class CourseController {
         return new ResponseEntity<>(courseService.findById(courseID), HttpStatus.OK);
     }
 
-    @GetMapping("/course/search")
+    @GetMapping("/course")
     public ResponseEntity<List<CourseDTO>> findAllByTitle(@RequestParam(value = "keyword") String keyword) throws CourseNotFoundException {
         return new ResponseEntity<>(courseService.listAllByKeyword(keyword), HttpStatus.OK);
     }

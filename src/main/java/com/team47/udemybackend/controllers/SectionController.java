@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @Data
+@CrossOrigin
 public class SectionController {
     private final SectionService sectionService;
 

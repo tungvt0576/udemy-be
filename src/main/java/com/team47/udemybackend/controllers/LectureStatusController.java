@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("${api.prefix}/lecture-status")
+@CrossOrigin
 public class LectureStatusController {
 
     @Resource

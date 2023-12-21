@@ -34,7 +34,7 @@ public class CourseController {
         return new ResponseEntity<>(courseService.findById(courseID), HttpStatus.OK);
     }
 
-    @GetMapping("/course")
+    @GetMapping("/course/search")
     public ResponseEntity<List<CourseDTO>> findAllByTitle(@RequestParam(value = "keyword") String keyword) throws CourseNotFoundException {
         return new ResponseEntity<>(courseService.listAllByKeyword(keyword), HttpStatus.OK);
     }

@@ -9,6 +9,8 @@ import com.team47.udemybackend.repository.SectionRepository;
 import com.team47.udemybackend.service.SectionService;
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class SectionServiceImpl implements SectionService {
     private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
+    Logger log = LoggerFactory.getLogger(SectionServiceImpl.class);
 
     public SectionServiceImpl(SectionRepository sectionRepository, CourseRepository courseRepository) {
         this.sectionRepository = sectionRepository;
@@ -62,8 +65,10 @@ public class SectionServiceImpl implements SectionService {
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
+        log.info(section.toString());
         sectionRepository.save(section);
         return section;
+
     }
 
     @Override

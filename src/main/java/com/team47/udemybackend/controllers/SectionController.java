@@ -45,10 +45,12 @@ public class SectionController {
     }
     @PostMapping("/section/{courseId}")
     public ResponseEntity<Section> createNew(@RequestBody String newName,@PathVariable Integer courseId) throws CourseNotFoundException {
-        return new ResponseEntity<>(sectionService.createSection(newName, courseId), HttpStatus.OK);
+        String name = newName.substring(newName.indexOf(":\"") + 2, newName.lastIndexOf('\"'));
+        return new ResponseEntity<>(sectionService.createSection(name, courseId), HttpStatus.OK);
     }
     @PutMapping("/section/{sectionId}/{courseID}")
     public ResponseEntity<Section> updateSection(@RequestBody String newName, @PathVariable Integer sectionId, @PathVariable Integer courseID) throws SectionNotFoundException {
-        return new ResponseEntity<>(sectionService.updateSectionByName(newName, sectionId, courseID), HttpStatus.OK);
+        String name = newName.substring(newName.indexOf(":\"") + 2, newName.lastIndexOf('\"'));
+        return new ResponseEntity<>(sectionService.updateSectionByName(name, sectionId, courseID), HttpStatus.OK);
     }
 }

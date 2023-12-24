@@ -114,9 +114,14 @@ public class AssignmentsSubmissionServiceImpl implements AssignmentsSubmissionSe
     public BaseResponse create(CreateAssignmentsSubmissionDTO createAssignmentsSubmissionDTO) {
         try {
             AssignmentsSubmission newSubmission = mapToAssignmentsSubmission(createAssignmentsSubmissionDTO);
-            assignmentsSubmissionRepository.save(newSubmission);
-
-            return DataResponse.simpleSuccess("New assignment submission created successfully");
+//            assignmentsSubmissionRepository.save(newSubmission);
+//
+//            return DataResponse.simpleSuccess("New assignment submission created successfully");
+            return DataResponse.builder()
+                    .isError(false)
+                    .data(assignmentsSubmissionRepository.save(newSubmission))
+                    .message("New assignment submission created successfully")
+                    .build();
         } catch (Exception e) {
             throw new UdemyRuntimeException(e.getMessage());
         }

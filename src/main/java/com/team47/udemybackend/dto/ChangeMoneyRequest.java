@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChangeMoneyRequest {
     private Float changeAmount;
+    private Integer typeChange; //1 is add, 0 is less
 }

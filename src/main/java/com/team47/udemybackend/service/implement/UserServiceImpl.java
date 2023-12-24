@@ -78,7 +78,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeMoney(ChangeMoneyRequest amountChanged, Integer userID) throws UserNotFoundException {
         User user = findUserByIDHelper(userID);
-        user.setMoney(user.getMoney() - amountChanged.getChangeAmount());
+        if(amountChanged.getTypeChange() == 1){
+            user.setMoney(user.getMoney() + amountChanged.getChangeAmount());
+        }else if(amountChanged.getTypeChange() == 0){
+            user.setMoney(user.getMoney() - amountChanged.getChangeAmount());
+        } else {
+            throw new RuntimeException("Type change is invalid");
+        }
         userRepository.save(user);
     }
 
@@ -100,6 +106,14 @@ public class UserServiceImpl implements UserService {
         user.setRole(userDTO.getRole());
         return mapToUserDTO(user);
     }
+
+//    @Override
+//    public UserDTO addMoneyByID(Float amount, Integer userID) throws UserNotFoundException {
+//        User user = findUserByIDHelper(userID);
+//        user.setMoney(user.getMoney() + amount);
+//        userRepository.save(user);
+//        return mapToUserDTO(user);
+//    }
 
     @Override
     public User findUserByIDHelper(Integer userID) throws UserNotFoundException {

@@ -118,9 +118,14 @@ public class LectureStatusServiceImpl implements LectureStatusService {
             BeanUtils.copyProperties(createLectureStatusDTO, lectureStatusDTO);
 
             LectureStatus newLectureStatus = mapToLectureStatus(lectureStatusDTO);
-            lectureStatusRepository.save(newLectureStatus);
+//            lectureStatusRepository.save(newLectureStatus);
 
-            return DataResponse.simpleSuccess("New lecture status created successfully");
+//            return DataResponse.simpleSuccess("New lecture status created successfully");
+            return DataResponse.builder()
+                    .isError(false)
+                    .data(lectureStatusRepository.save(newLectureStatus))
+                    .message("New lecture status created successfully")
+                    .build();
         } catch (Exception e) {
             throw new UdemyRuntimeException(e.getMessage());
         }

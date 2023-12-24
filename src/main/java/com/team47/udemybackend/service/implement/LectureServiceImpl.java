@@ -123,9 +123,13 @@ public class LectureServiceImpl implements LectureService {
             BeanUtils.copyProperties(createLectureDTO, lectureDTO);
 
             Lecture newLecture = mapToLecture(lectureDTO);
-            lectureRepository.save(newLecture);
 
-            return DataResponse.simpleSuccess("New lecture created successfully");
+//            return DataResponse.simpleSuccess("New lecture created successfully");
+            return DataResponse.builder()
+                    .isError(false)
+                    .data(lectureRepository.save(newLecture))
+                    .message("New lecture created successfully")
+                    .build();
         } catch (Exception e) {
             throw new UdemyRuntimeException(e.getMessage());
         }
@@ -149,7 +153,12 @@ public class LectureServiceImpl implements LectureService {
                 Lecture savedLecture = lectureRepository.save(existingLecture);
                 mapToLectureDTO(savedLecture);
 
-                return DataResponse.simpleSuccess("Lecture updated successfully");
+//                return DataResponse.simpleSuccess("Lecture updated successfully");
+                return DataResponse.builder()
+                        .isError(false)
+                        .data(savedLecture)
+                        .message("Lecture updated successfully")
+                        .build();
             } else {
                 return BaseResponse.simpleFail(String.format("Lecture id: %d does not exist", lectureId));
             }

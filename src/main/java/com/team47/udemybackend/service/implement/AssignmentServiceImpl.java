@@ -109,8 +109,13 @@ public class AssignmentServiceImpl implements AssignmentService {
             AssignmentDTO assignmentDTO = new AssignmentDTO();
             BeanUtils.copyProperties(createAssignmentDTO, assignmentDTO);
             Assignment newAssignment = mapToAssignment( assignmentDTO);
-            assignmentRepository.save(newAssignment);
-            return DataResponse.simpleSuccess("New assignment created successfully");
+//            assignmentRepository.save(newAssignment);
+//            return DataResponse.simpleSuccess("New assignment created successfully");
+            return DataResponse.builder()
+                    .isError(false)
+                    .data(assignmentRepository.save(newAssignment))
+                    .message("New assignment created successfully")
+                    .build();
         } catch (Exception e) {
             throw new UdemyRuntimeException(e.getMessage());
         }
@@ -130,7 +135,12 @@ public class AssignmentServiceImpl implements AssignmentService {
                 BeanUtils.copyProperties(updatedAssignment, existingAssignment, UtilsFunctions.getNullPropertyNames(updatedAssignment));
                 Assignment savedAssignment = assignmentRepository.save(existingAssignment);
                 mapToAssignmentDTO(savedAssignment);
-                return DataResponse.simpleSuccess("Assignment updated successfully");
+//                return DataResponse.simpleSuccess("Assignment updated successfully");
+                return DataResponse.builder()
+                        .isError(false)
+                        .data(savedAssignment)
+                        .message("Assignments updated successfully")
+                        .build();
             } else {
                 return BaseResponse.simpleFail(String.format("Assignment id: %d does not exist", assignmentId));
             }

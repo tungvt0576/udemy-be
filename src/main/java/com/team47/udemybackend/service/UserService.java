@@ -24,8 +24,11 @@ public interface UserService {
     void delete(Integer userId);
 
     UserDTO updatedByID(UserDTO userDTO, Integer userID) throws UserNotFoundException;
+//    UserDTO addMoneyByID(Float amount, Integer userID) throws UserNotFoundException;
+
 
     User findUserByIDHelper(Integer userID) throws UserNotFoundException;
 
    List<UserDTO> findUsersByEnrolledCourses(Integer courseId) throws UserNotFoundException;
+
 }

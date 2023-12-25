@@ -72,12 +72,23 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public void deleteSection(Integer sectionId, Integer courseId) {
-        sectionRepository.deleteSectionByIdAndCourseId(sectionId, courseId);
+    public void deleteSection(Integer sectionId, Integer courseId) throws SectionNotFoundException {
+        Section section = sectionRepository.findSectionsByIdAndCourseId(sectionId, courseId);
+        if(section != null){
+            sectionRepository.deleteSectionByIdAndCourseId(sectionId, courseId);
+        }else{
+            throw new SectionNotFoundException(String.format("Section %d in course %d not found!", sectionId, courseId));
+        }
+
     }
 
     @Override
-    public void deleteAllSectionByCourseId(Integer courseId) throws CourseNotFoundException {
-        sectionRepository.deleteSectionsByCourseId(courseId);
+    public void deleteAllSectionByCourseId(Integer courseId) throws CourseNotFoundException, SectionNotFoundException {
+        if(sectionRepository.findSectionsByCourseId(courseId) != null){
+            sectionRepository.deleteSectionsByCourseId(courseId);
+        }else{
+            throw new SectionNotFoundException(String.format("No any section in course %d", courseId));
+        }
+
     }
 }

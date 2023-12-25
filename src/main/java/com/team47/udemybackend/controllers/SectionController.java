@@ -34,13 +34,13 @@ public class SectionController {
         return new ResponseEntity<>(sectionService.findAllSectionByCourseId(courseID), HttpStatus.OK);
     }
     @DeleteMapping("/section/{courseId}")
-    public ResponseEntity<String> deleteAllByCourseID(@PathVariable Integer courseId) throws CourseNotFoundException {
+    public ResponseEntity<String> deleteAllByCourseID(@PathVariable Integer courseId) throws CourseNotFoundException, SectionNotFoundException {
         sectionService.deleteAllSectionByCourseId(courseId);
         return new ResponseEntity<>(String.format("Delete all section of course %d", courseId), HttpStatus.OK);
     }
     @DeleteMapping("/section/{sectionId}/{courseId}")
     public ResponseEntity<String> delete(@PathVariable Integer sectionId, @PathVariable Integer courseId) throws SectionNotFoundException {
-        sectionService.findSectionByIdAndCourseId(sectionId, courseId);
+        sectionService.deleteSection(sectionId,courseId);
         return new ResponseEntity<>(String.format("Deleted section %d of course %d", sectionId, courseId),HttpStatus.OK);
     }
     @PostMapping("/section/{courseId}")

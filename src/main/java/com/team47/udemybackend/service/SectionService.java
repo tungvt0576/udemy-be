@@ -12,6 +12,6 @@ public interface SectionService {
     public Section updateSectionByName(String name, Integer sectionId, Integer courseID) throws SectionNotFoundException;
     public Section createSection(String newName, Integer courseID) throws CourseNotFoundException;
     public void deleteSection(Integer sectionId, Integer courseId) throws SectionNotFoundException;
-    public void deleteAllSectionByCourseId(Integer courseId) throws CourseNotFoundException;
+    public void deleteAllSectionByCourseId(Integer courseId) throws CourseNotFoundException, SectionNotFoundException;
 
 }

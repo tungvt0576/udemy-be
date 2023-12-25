@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedAt(LocalDateTime.now());
 //        user.setMoney(userDTO.getMoney());
 //        user.setRole(userDTO.getRole());
+        userRepository.save(user);
         return mapToUserDTO(user);
     }
 

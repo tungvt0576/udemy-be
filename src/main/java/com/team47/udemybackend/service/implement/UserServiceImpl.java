@@ -7,6 +7,7 @@ import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Enroll;
 import com.team47.udemybackend.repository.CourseRepository;
 import com.team47.udemybackend.repository.EnrollRepository;
+import com.team47.udemybackend.user.Role;
 import com.team47.udemybackend.user.UserRepository;
 import com.team47.udemybackend.service.UserService;
 import com.team47.udemybackend.user.User;
@@ -78,12 +79,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeMoney(ChangeMoneyRequest amountChanged, Integer userID) throws UserNotFoundException {
         User user = findUserByIDHelper(userID);
-        if(amountChanged.getTypeChange() == 1){
-            user.setMoney(user.getMoney() + amountChanged.getChangeAmount());
+
+        if(user.getMoney() == null){
+            user.setMoney((float) 0);
+        }
+        if((int) amountChanged.getTypeChange() == 1){
+            user.setMoney(user.getMoney() + (float)amountChanged.getChangeAmount());
         }else if(amountChanged.getTypeChange() == 0){
-            user.setMoney(user.getMoney() - amountChanged.getChangeAmount());
+            if(user.getMoney() >= (float)amountChanged.getChangeAmount()){
+                user.setMoney(user.getMoney() - (float)amountChanged.getChangeAmount());
+            }else {
+                throw new RuntimeException("No enough money");
+            }
         } else {
-            throw new RuntimeException("Type change is invalid");
+            throw new RuntimeException("Type change is 1 if you want to add money, 0 if you want to less ");
         }
         userRepository.save(user);
     }
@@ -102,8 +111,8 @@ public class UserServiceImpl implements UserService {
         user.setWebsite(userDTO.getWebsite());
         user.setDescription(userDTO.getDescription());
         user.setUpdatedAt(LocalDateTime.now());
-        user.setMoney(userDTO.getMoney());
-        user.setRole(userDTO.getRole());
+//        user.setMoney(userDTO.getMoney());
+//        user.setRole(userDTO.getRole());
         return mapToUserDTO(user);
     }
 
@@ -132,6 +141,25 @@ public class UserServiceImpl implements UserService {
             userDTOS.add(mapToUserDTO(enrollment.getUser()));
         }
         return userDTOS;
+    }
+
+    @Override
+    public UserDTO updateRoleById(Integer userId, String role1) throws UserNotFoundException {
+        if((!role1.toString().equals("ADMIN")) && (!role1.toString().equals("USER"))){
+            throw new RuntimeException("Role need ADMIN or USER");
+        }
+
+        Role role = Role.valueOf(role1);
+        System.out.println(role1);
+        Optional<User> result = Optional.ofNullable(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found")));
+        if (result.isPresent()) {
+            User user = result.get();
+            user.setRole(role);
+            userRepository.save(user);
+            return mapToUserDTO(user);
+        } else {
+            throw new UserNotFoundException(String.format("User ID: %d not found", userId));
+        }
     }
 
     private UserDTO mapToUserDTO(User user) {

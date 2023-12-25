@@ -5,7 +5,9 @@ import com.team47.udemybackend.dto.ChangePasswordRequest;
 import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Course;
+import com.team47.udemybackend.user.Role;
 import com.team47.udemybackend.user.User;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.security.Principal;
 import java.util.List;
@@ -30,5 +32,6 @@ public interface UserService {
     User findUserByIDHelper(Integer userID) throws UserNotFoundException;
 
    List<UserDTO> findUsersByEnrolledCourses(Integer courseId) throws UserNotFoundException;
+   UserDTO updateRoleById(Integer userId, String role) throws UserNotFoundException;
 
 }

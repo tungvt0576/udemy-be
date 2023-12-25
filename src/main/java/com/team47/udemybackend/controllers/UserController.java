@@ -7,6 +7,7 @@ import com.team47.udemybackend.dto.UserDTO;
 import com.team47.udemybackend.exception.UserNotFoundException;
 import com.team47.udemybackend.models.Course;
 import com.team47.udemybackend.service.UserService;
+import com.team47.udemybackend.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,12 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Integer userID) {
         userService.delete(userID);
         return new ResponseEntity<>("deleted user", HttpStatus.OK);
+    }
+
+    @PutMapping("user/update_role/{userID}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDTO> updateRoleById(@PathVariable Integer userID, @RequestParam String role) throws UserNotFoundException {
+        return new ResponseEntity<>(userService.updateRoleById(userID, role), HttpStatus.OK);
     }
 
     @PatchMapping("/user/update_pass")
